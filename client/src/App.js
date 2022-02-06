@@ -23,13 +23,13 @@ export default function App() {
       description: item.description,
       image: item.image,
     };
-    await axios.post("/notes", newNotes);
+    await axios.post("http://localhost:5000/notes", newNotes);
     setItem({ title: "", description: "" });
   }
 
   async function getNotes() {
     setLoading(true);
-    const response = await fetch("/notes");
+    const response = await fetch("http://localhost:5000/notes");
     const notesData = await response.json();
 
     console.log(notesData);
@@ -38,7 +38,7 @@ export default function App() {
   }
 
   async function deleteNotes(id) {
-    await axios.delete("/notes/" + id);
+    await axios.delete("http://localhost:5000/notes/" + id);
     const deletedNotes = notes.filter((ele) => {
       return ele._id !== id;
     });
@@ -50,7 +50,7 @@ export default function App() {
     setUpdatedNotes({ ...updatedNotes, id: id });
   }
   async function updateNotes(id) {
-    await axios.put("/notes/" + id, updatedNotes);
+    await axios.put("http://localhost:5000/notes/" + id, updatedNotes);
   }
   useEffect(() => {
     getNotes();
