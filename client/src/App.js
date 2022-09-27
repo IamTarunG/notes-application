@@ -23,22 +23,14 @@ export default function App() {
       description: item.description,
       image: item.image,
     };
-    await axios.post("http://localhost:5000/notes", newNotes);
+    await axios.post("https://noteserver.onrender.com/notes", newNotes);
     setItem({ title: "", description: "" });
   }
 
-  async function getNotes() {
-    setLoading(true);
-    const response = await fetch("http://localhost:5000/notes");
-    const notesData = await response.json();
 
-    console.log(notesData);
-    setNotes(notesData);
-    setLoading(false);
-  }
 
   async function deleteNotes(id) {
-    await axios.delete("http://localhost:5000/notes/" + id);
+    await axios.delete("https://noteserver.onrender.com/notes/" + id);
     const deletedNotes = notes.filter((ele) => {
       return ele._id !== id;
     });
@@ -50,9 +42,18 @@ export default function App() {
     setUpdatedNotes({ ...updatedNotes, id: id });
   }
   async function updateNotes(id) {
-    await axios.put("http://localhost:5000/notes/" + id, updatedNotes);
+    await axios.put("https://noteserver.onrender.com/notes/" + id, updatedNotes);
   }
   useEffect(() => {
+    async function getNotes() {
+      setLoading(true);
+      const response = await fetch("https://noteserver.onrender.com/notes");
+      const notesData = await response.json();
+
+      console.log(notesData);
+      setNotes(notesData);
+      setLoading(false);
+    }
     getNotes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.image]);
